@@ -1,6 +1,5 @@
 use std::fs::File;
 use std::io::{prelude::*, BufReader};
-//use std::path::Path;
 
 fn populate() -> Vec<i32> {
     let mut v: Vec<i32> = Vec::new();
