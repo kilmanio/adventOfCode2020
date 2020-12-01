@@ -2,19 +2,19 @@ use std::fs::File;
 use std::io::{prelude::*, BufReader};
 //use std::path::Path;
 
-fn populate() -> Vec<u32> {
-    let mut v: Vec<u32> = Vec::new();
+fn populate() -> Vec<i32> {
+    let mut v: Vec<i32> = Vec::new();
     let file = File::open("input").unwrap();
     let reader = BufReader::new(file);
 
     for line in reader.lines() {
-        v.push(line.unwrap().parse::<u32>().unwrap());
+        v.push(line.unwrap().parse::<i32>().unwrap());
     }
 
     v
 }
 
-fn resolve(numbers: Vec<u32>) {
+fn resolve2(numbers: Vec<i32>) {
     let goal = 2020;
     let mut result = 0;
 
@@ -25,14 +25,31 @@ fn resolve(numbers: Vec<u32>) {
             break;
         }
     }
-    println!("{}", result);
+    println!("2 number sum to 2020 multiplied: {}", result);
+}
+
+
+fn resolve3(numbers: Vec<i32>) {
+    let goal = 2020;
+    let mut result = 0;
+
+    for number in &numbers {
+        let target = goal - number;
+        for number2 in &numbers {
+            let target2 = target - number2;
+            if numbers.contains(&target2) {
+                result = number * number2 * target2;
+                break;
+            }
+        }
+    }
+    println!("3 number sum to 2020 multiplied: {}", result);
 }
 
 fn main() {
-    //let numbers = populate();
-    let numbers: Vec<u32>;
+    let numbers: Vec<i32>;
     numbers = populate();
-    //populate2(&mut numbers);
-    resolve(numbers);
+    resolve2(numbers.clone());
+    resolve3(numbers.clone());
 }
 
