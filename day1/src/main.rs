@@ -2,15 +2,13 @@ use std::fs::File;
 use std::io::{prelude::*, BufReader};
 
 fn populate() -> Vec<i32> {
-    let mut v: Vec<i32> = Vec::new();
     let file = File::open("input").unwrap();
     let reader = BufReader::new(file);
 
-    for line in reader.lines() {
-        v.push(line.unwrap().parse::<i32>().unwrap());
-    }
-
-    v
+    reader
+        .lines()
+        .map(|l| l.unwrap().parse::<i32>().unwrap())
+        .collect::<Vec<_>>()
 }
 
 fn resolve2(numbers: Vec<i32>) {
@@ -26,7 +24,6 @@ fn resolve2(numbers: Vec<i32>) {
     }
     println!("2 number sum to 2020 multiplied: {}", result);
 }
-
 
 fn resolve3(numbers: Vec<i32>) {
     let goal = 2020;
