@@ -2,8 +2,8 @@ use std::fs::File;
 use std::io::{prelude::*, BufReader};
 
 struct Passline {
-    lower: usize,
-    upper: usize,
+    lower: u8,
+    upper: u8,
     character: u8,
     password: String,
 }
@@ -12,8 +12,8 @@ fn read_line(line: String) -> Option<Passline> {
     let mut split = line.split(' ');
     let mut numbers = split.next()?.split('-');
     let ret = Passline { 
-        lower: numbers.next()?.parse::<usize>().ok()?,
-        upper: numbers.next()?.parse::<usize>().ok()?,
+        lower: numbers.next()?.parse::<u8>().ok()?,
+        upper: numbers.next()?.parse::<u8>().ok()?,
         character: split.next()?.as_bytes()[0], 
         password: split.next()?.to_string()
     };
@@ -26,7 +26,7 @@ fn is_valid(info: &Passline) -> bool {
         .as_bytes()
         .iter()
         .filter(|&&c| c == info.character)
-        .count() as usize;
+        .count() as u8;
 
     if count < info.lower || count > info.upper {
         return false;
@@ -54,15 +54,12 @@ fn main() {
 
     println!("Amount of valid passwords part one: {}", num);
 
-    let file2 = File::open("input").unwrap();
-    let reader2 = BufReader::new(file2);
-
-    let num2 = reader2
+    let num2 = reader
         .lines()
         .filter_map(|x| read_line(x.unwrap()))
         .filter(|x| is_valid2(x))
         .count();
 
-    println!("Amount of valid passwords part two: {}", num2);
+    println!("Amount of valid passwords part two: {}", num);
 }
 
